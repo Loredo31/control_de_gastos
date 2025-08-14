@@ -1,5 +1,5 @@
-import { Request, Response } from 'express';
-import pool from '../utils/database';
+    import { Request, Response } from 'express';
+    import pool from '../utils/database';
 
 class RecordController {
     public async created_record(req: Request, res: Response) {
