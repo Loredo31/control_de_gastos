@@ -2,6 +2,20 @@
     import pool from '../utils/database';
 
 class RecordController {
+    /*
+    Ruta: http://localhost:3000/api/records
+    Ejemplo de JSON a mandar con post
+    {
+  "isentry": true,
+  "amount": 1500.50,
+  "category_id": 2,
+  "concept": "Pago de servicios",
+  "is_concurrent": true,
+  "id_type": 1,
+  "day": 28,
+  "week": 0
+}
+    */
     public async created_record(req: Request, res: Response) {
         const { isentry, amount, category_id, concept,
             is_concurrent, id_type, day, week } = req.body;
@@ -25,7 +39,7 @@ class RecordController {
             if (is_concurrent) {
                 const id_record = record.rows[0].id;
                 const recurrent_record = await client.query(
-                    `INSERT INTO recurrence_record (id_record, idtype, day, week, active) 
+                    `INSERT INTO recurrence_record (idrecordes, idtype, day, week, active) 
                  VALUES ($1, $2, $3, $4, $5) RETURNING *`,
                     [id_record, id_type, day, week, true]
                 );
@@ -53,10 +67,15 @@ class RecordController {
             client.release();
         }
     }
+    /*
+Ruta: http://localhost:3000/api/records
+*/
 
-    public async view_record(req: Request, res: Response){
+    public async view_record(req: Request, res: Response) {
         try {
-            const record = await pool.query("SELECT * FROM record_es");
+            const record = await pool.query(`SELECT res.*, ca.name AS category 
+                FROM record_es res INNER JOIN category ca 
+                ON res.category_id = ca.id`);
 
             if (record.rows.length === 0) {
                 return res.status(400).json({
@@ -80,6 +99,77 @@ class RecordController {
             });
         }
     }
+
+        /*
+    Ruta: http://localhost:3000/api/records*/
+    public async update_record(req: Request, res: Response) {
+        const { id, isentry, amount, category_id, concept } = req.body;
+
+        try {
+            const record = await pool.query(
+                `UPDATE record_es 
+             SET isentry = $1, amount = $2, category_id = $3, concept = $4
+             WHERE id = $5
+             RETURNING *`,
+                [isentry, amount, category_id, concept, id]
+            );
+
+            if (record.rows.length === 0) {
+                return res.status(404).json({
+                    status: false,
+                    message: 'No se encontró el registro a actualizar',
+                    body: null
+                });
+            }
+
+            res.status(200).json({
+                status: true,
+                message: 'Registro actualizado exitosamente',
+                body: record.rows[0]
+            });
+
+        } catch (error) {
+
+            res.status(500).json({
+                status: false,
+                message: `Error al actualizar el registro: ${error.message}`
+            });
+        }
+    }
+
+    
+        /*
+    Ruta: http://localhost:3000/api/records/:id*/
+
+    public async delete_record(req: Request, res: Response) {
+        const { id } = req.params;
+        try {
+            const result = await pool.query(
+                `DELETE FROM record_es WHERE id = $1 RETURNING *`,
+                [id]
+            );
+
+            if (result.rows.length === 0) {
+                return res.status(404).json({
+                    status: false,
+                    message: 'No se encontró el registro a eliminar'
+                });
+            }
+
+            res.status(200).json({
+                status: true,
+                message: 'Registro eliminado exitosamente',
+                body: result.rows[0]
+            });
+
+        } catch (error) {
+            res.status(500).json({
+                status: false,
+                message: `Error al eliminar el registro: ${error.message}`
+            });
+        }
+    }
+
 
 
 };

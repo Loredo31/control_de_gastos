@@ -15,6 +15,20 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.recordController = void 0;
 const database_1 = __importDefault(require("../utils/database"));
 class RecordController {
+    /*
+    Ruta: http://localhost:3000/api/records
+    Ejemplo de JSON a mandar con post
+    {
+  "isentry": true,
+  "amount": 1500.50,
+  "category_id": 2,
+  "concept": "Pago de servicios",
+  "is_concurrent": true,
+  "id_type": 1,
+  "day": 28,
+  "week": 0
+}
+    */
     created_record(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { isentry, amount, category_id, concept, is_concurrent, id_type, day, week } = req.body;
@@ -29,7 +43,7 @@ class RecordController {
                 }
                 if (is_concurrent) {
                     const id_record = record.rows[0].id;
-                    const recurrent_record = yield client.query(`INSERT INTO recurrence_record (id_record, idtype, day, week, active) 
+                    const recurrent_record = yield client.query(`INSERT INTO recurrence_record (idrecordes, idtype, day, week, active) 
                  VALUES ($1, $2, $3, $4, $5) RETURNING *`, [id_record, id_type, day, week, true]);
                     if (recurrent_record.rows.length === 0) {
                         throw new Error('No se pudo crear el registro concurrente');
@@ -54,10 +68,15 @@ class RecordController {
             }
         });
     }
+    /*
+Ruta: http://localhost:3000/api/records
+*/
     view_record(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const record = yield database_1.default.query("SELECT * FROM record_es");
+                const record = yield database_1.default.query(`SELECT res.*, ca.name AS category 
+                FROM record_es res INNER JOIN category ca 
+                ON res.category_id = ca.id`);
                 if (record.rows.length === 0) {
                     return res.status(400).json({
                         status: false,
@@ -76,6 +95,64 @@ class RecordController {
                 res.status(500).json({
                     status: false,
                     message: 'Error interno al obtener los registros'
+                });
+            }
+        });
+    }
+    /*
+Ruta: http://localhost:3000/api/records*/
+    update_record(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { id, isentry, amount, category_id, concept } = req.body;
+            try {
+                const record = yield database_1.default.query(`UPDATE record_es 
+             SET isentry = $1, amount = $2, category_id = $3, concept = $4
+             WHERE id = $5
+             RETURNING *`, [isentry, amount, category_id, concept, id]);
+                if (record.rows.length === 0) {
+                    return res.status(404).json({
+                        status: false,
+                        message: 'No se encontró el registro a actualizar',
+                        body: null
+                    });
+                }
+                res.status(200).json({
+                    status: true,
+                    message: 'Registro actualizado exitosamente',
+                    body: record.rows[0]
+                });
+            }
+            catch (error) {
+                res.status(500).json({
+                    status: false,
+                    message: `Error al actualizar el registro: ${error.message}`
+                });
+            }
+        });
+    }
+    /*
+Ruta: http://localhost:3000/api/records/:id*/
+    delete_record(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { id } = req.params;
+            try {
+                const result = yield database_1.default.query(`DELETE FROM record_es WHERE id = $1 RETURNING *`, [id]);
+                if (result.rows.length === 0) {
+                    return res.status(404).json({
+                        status: false,
+                        message: 'No se encontró el registro a eliminar'
+                    });
+                }
+                res.status(200).json({
+                    status: true,
+                    message: 'Registro eliminado exitosamente',
+                    body: result.rows[0]
+                });
+            }
+            catch (error) {
+                res.status(500).json({
+                    status: false,
+                    message: `Error al eliminar el registro: ${error.message}`
                 });
             }
         });

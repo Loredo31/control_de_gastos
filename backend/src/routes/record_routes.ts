@@ -11,6 +11,8 @@ class RecordRoutes {
     config(): void {
         this.router.get('/', recordController.view_record);
         this.router.post('/', recordController.created_record);
+        this.router.delete('/:id', recordController.delete_record);
+        this.router.put('/', recordController.update_record);
     }
 }
 
