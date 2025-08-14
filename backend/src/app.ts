@@ -4,8 +4,6 @@ import cors from 'cors';
 import indexRoutes from './routes/indexRoutes';
 
 
-//import pruebaRoutes from './routes/pruebaRoutes';
-
 class Server {
     public app: Application;
 
