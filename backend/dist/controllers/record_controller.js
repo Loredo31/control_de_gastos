@@ -31,7 +31,7 @@ class RecordController {
     */
     created_record(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { isentry, amount, category_id, concept, is_concurrent, id_type, day, week } = req.body;
+            const { isentry, amount, category_id, concept, is_concurrent, id_type, days_month, days_week, working_days } = req.body;
             const date = new Date();
             const client = yield database_1.default.connect();
             try {
@@ -43,8 +43,8 @@ class RecordController {
                 }
                 if (is_concurrent) {
                     const id_record = record.rows[0].id;
-                    const recurrent_record = yield client.query(`INSERT INTO recurrence_record (idrecordes, idtype, day, week, active) 
-                 VALUES ($1, $2, $3, $4, $5) RETURNING *`, [id_record, id_type, day, week, true]);
+                    const recurrent_record = yield client.query(`INSERT INTO recurrence_record (idrecordes, idtype, active, days_month, days_week, working_days) 
+                 VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`, [id_record, id_type, true, days_month, days_week, working_days]);
                     if (recurrent_record.rows.length === 0) {
                         throw new Error('No se pudo crear el registro concurrente');
                     }

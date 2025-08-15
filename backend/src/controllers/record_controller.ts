@@ -18,7 +18,7 @@ class RecordController {
     */
     public async created_record(req: Request, res: Response) {
         const { isentry, amount, category_id, concept,
-            is_concurrent, id_type, day, week } = req.body;
+            is_concurrent, id_type, days_month, days_week, working_days } = req.body;
         const date = new Date();
 
         const client = await pool.connect();
@@ -39,9 +39,9 @@ class RecordController {
             if (is_concurrent) {
                 const id_record = record.rows[0].id;
                 const recurrent_record = await client.query(
-                    `INSERT INTO recurrence_record (idrecordes, idtype, day, week, active) 
-                 VALUES ($1, $2, $3, $4, $5) RETURNING *`,
-                    [id_record, id_type, day, week, true]
+                    `INSERT INTO recurrence_record (idrecordes, idtype, active, days_month, days_week, working_days) 
+                 VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
+                    [id_record, id_type, true, days_month, days_week, working_days]
                 );
 
                 if (recurrent_record.rows.length === 0) {
