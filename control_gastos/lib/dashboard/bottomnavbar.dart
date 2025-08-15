@@ -1,3 +1,4 @@
+import 'package:control_gastos/dashboard/screens/CRUDRecordScreen.dart';
 import 'package:control_gastos/dashboard/screens/principalScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
@@ -12,7 +13,10 @@ class BottomNavBar extends StatefulWidget {
 class _BottomNavBarState extends State<BottomNavBar> {
   int _selectedIndex = 0;
 
-  final List<Widget> Screens = [Principalscreen()];
+  final List<Widget> Screens = [
+    Principalscreen(),
+    CRUDRecordScreen(),
+    ];
 
   @override
   Widget build(BuildContext context) {

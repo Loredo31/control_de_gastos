@@ -186,8 +186,7 @@ Ruta: http://localhost:3000/api/records*/
             try {
                 const { month, year } = req.params;
                 const monthNum = Number(month);
-            }
-                const yearNum = year ? Number(year) : new Date().getFullYear();
+                const yearNum = Number(year);
                 const record = yield database_1.default.query(`SELECT res.*, ca.name AS category, rr.id AS recurrence_id, rr.idtype, rr.active, rr.day_month, rr.days_week, rr.working_days
                  FROM record_es res
                  INNER JOIN category ca ON res.category_id = ca.id
@@ -195,7 +194,6 @@ Ruta: http://localhost:3000/api/records*/
                  WHERE EXTRACT(MONTH FROM res.date) = $1
                  AND EXTRACT(YEAR FROM res.date) = $2
                  ORDER BY res.date ASC`, [monthNum, yearNum]);
-            }
                 if (record.rows.length === 0) {
                     return res.status(404).json({
                         status: false,
