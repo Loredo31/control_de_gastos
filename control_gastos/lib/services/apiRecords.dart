@@ -13,7 +13,7 @@ class Apirecords {
       final responseData = jsonDecode(res.body);
 
       if (res.statusCode != 200) {
-        throw (responseData["message"]);
+        return [];
       } else {
         return List<Map<String, dynamic>>.from(responseData["body"]);
       }
