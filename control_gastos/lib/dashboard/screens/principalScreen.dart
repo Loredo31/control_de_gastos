@@ -2,8 +2,10 @@ import 'package:control_gastos/functions/graphicsData.dart';
 import 'package:control_gastos/functions/monthFunctions.dart';
 import 'package:control_gastos/model/chartDataColumnTwo_model.dart';
 import 'package:control_gastos/services/apiRecords.dart';
+import 'package:control_gastos/widgets/barMonth.dart';
 import 'package:control_gastos/widgets/graphics_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class Principalscreen extends StatefulWidget {
   const Principalscreen({super.key});
@@ -39,10 +41,23 @@ class _PrincipalscreenState extends State<Principalscreen> {
     });
   }
 
+  void chanceDate(int month, int year) {
+    final String fechaString = "$year-$month-01 00:00:00";
+    final formato = "yyyy-MM-dd HH:mm:ss";
+    final finalDate = DateFormat(formato).parse(fechaString);
+
+    getDataRecords(finalDate);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
+        BarMonth(
+          onChanged: (month, year) {
+            chanceDate(month, year);
+          },
+        ),
         GraphicsLine(
           data: chartData,
           typeColumn: ["Salidas", "Entradas"],

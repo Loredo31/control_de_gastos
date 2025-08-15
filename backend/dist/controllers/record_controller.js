@@ -161,16 +161,9 @@ Ruta: http://localhost:3000/api/records/:id*/
     view_record_date(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const { month, year } = req.query;
-                if (!month || isNaN(Number(month))) {
-                    return res.status(400).json({
-                        status: false,
-                        message: 'Se requiere un mes válido',
-                        body: []
-                    });
-                }
+                const { month, year } = req.params;
                 const monthNum = Number(month);
-                const yearNum = year ? Number(year) : new Date().getFullYear();
+                const yearNum = Number(year);
                 const record = yield database_1.default.query(`SELECT res.*, ca.name AS category
              FROM record_es res
              INNER JOIN category ca ON res.category_id = ca.id
