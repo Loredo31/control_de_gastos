@@ -12,6 +12,8 @@ class RecordRoutes {
         
         this.router.get('/', recurrencetypeController.getAllRecurrenceTypes);
         this.router.post('/', recurrencetypeController.createRecurrenceType);
+        this.router.delete('/:id', recurrencetypeController.deleteRecurrenceType);
+        this.router.put('/:id', recurrencetypeController.updateRecurrenceType);
     }
 }
 

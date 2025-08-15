@@ -10,6 +10,8 @@ class RecordRoutes {
     config() {
         this.router.get('/', recurrencetypeController_1.recurrencetypeController.getAllRecurrenceTypes);
         this.router.post('/', recurrencetypeController_1.recurrencetypeController.createRecurrenceType);
+        this.router.delete('/:id', recurrencetypeController_1.recurrencetypeController.deleteRecurrenceType);
+        this.router.put('/:id', recurrencetypeController_1.recurrencetypeController.updateRecurrenceType);
     }
 }
 const recordRoutes = new RecordRoutes;
