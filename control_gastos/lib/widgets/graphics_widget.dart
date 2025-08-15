@@ -22,9 +22,9 @@ class GraphicsLine extends StatelessWidget {
   Widget build(BuildContext context) {
     final int maxColumns = typeColumn.length;
 
-    final List<SplineSeries<ChartDataLine, String>> seriesList =
+    final List<LineSeries<ChartDataLine, String>> seriesList =
         List.generate(maxColumns, (index) {
-          return SplineSeries<ChartDataLine, String>(
+          return LineSeries<ChartDataLine, String>(
             dataSource: data,
             xValueMapper: (ChartDataLine d, _) => d.x,
             yValueMapper: (ChartDataLine d, _) =>

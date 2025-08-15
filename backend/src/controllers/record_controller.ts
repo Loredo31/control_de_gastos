@@ -1,5 +1,5 @@
-import { Request, Response } from 'express';
-import pool from '../utils/database';
+    import { Request, Response } from 'express';
+    import pool from '../utils/database';
 
 class RecordController {
     /*
@@ -204,18 +204,9 @@ Ruta: http://localhost:3000/api/records*/
     /*Esta funcion se encarga de traer a todos los resgitrso existentes, por mes y año*/
     public async view_record_date(req: Request, res: Response) {
         try {
-            const { month, year } = req.query;
-
-            if (!month || isNaN(Number(month))) {
-                return res.status(400).json({
-                    status: false,
-                    message: 'Se requiere un mes válido',
-                    body: []
-                });
-            }
-
+            const { month, year } = req.params;
             const monthNum = Number(month);
-            const yearNum = year ? Number(year) : new Date().getFullYear();
+            const yearNum = Number(year);
 
             const record = await pool.query(
                 `SELECT res.*, ca.name AS category, rr.id AS recurrence_id, rr.idtype, rr.active, rr.day_month, rr.days_week, rr.working_days

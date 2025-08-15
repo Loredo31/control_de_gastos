@@ -184,15 +184,9 @@ Ruta: http://localhost:3000/api/records*/
     view_record_date(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const { month, year } = req.query;
-                if (!month || isNaN(Number(month))) {
-                    return res.status(400).json({
-                        status: false,
-                        message: 'Se requiere un mes válido',
-                        body: []
-                    });
-                }
+                const { month, year } = req.params;
                 const monthNum = Number(month);
+            }
                 const yearNum = year ? Number(year) : new Date().getFullYear();
                 const record = yield database_1.default.query(`SELECT res.*, ca.name AS category, rr.id AS recurrence_id, rr.idtype, rr.active, rr.day_month, rr.days_week, rr.working_days
                  FROM record_es res
@@ -201,6 +195,7 @@ Ruta: http://localhost:3000/api/records*/
                  WHERE EXTRACT(MONTH FROM res.date) = $1
                  AND EXTRACT(YEAR FROM res.date) = $2
                  ORDER BY res.date ASC`, [monthNum, yearNum]);
+            }
                 if (record.rows.length === 0) {
                     return res.status(404).json({
                         status: false,
