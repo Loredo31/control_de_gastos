@@ -3,6 +3,7 @@ import morgan from 'morgan';
 import cors from 'cors';
 import indexRoutes from './routes/indexRoutes';
 import recordRoutes from './routes/record_routes';
+import recurrencetypeRoutes  from './routes/recurrencetypeRoutes';
 
 
 class Server {
@@ -25,6 +26,7 @@ class Server {
     routes(): void {
           this.app.use('/', indexRoutes); 
           this.app.use('/api/records', recordRoutes); 
+          this.app.use('/api/type', recurrencetypeRoutes)
     }
 
     start(): void {

@@ -8,6 +8,7 @@ const morgan_1 = __importDefault(require("morgan"));
 const cors_1 = __importDefault(require("cors"));
 const indexRoutes_1 = __importDefault(require("./routes/indexRoutes"));
 const record_routes_1 = __importDefault(require("./routes/record_routes"));
+const recurrencetypeRoutes_1 = __importDefault(require("./routes/recurrencetypeRoutes"));
 class Server {
     constructor() {
         this.app = (0, express_1.default)();
@@ -24,6 +25,7 @@ class Server {
     routes() {
         this.app.use('/', indexRoutes_1.default);
         this.app.use('/api/records', record_routes_1.default);
+        this.app.use('/api/type', recurrencetypeRoutes_1.default);
     }
     start() {
         this.app.listen(this.app.get('port'), () => {
