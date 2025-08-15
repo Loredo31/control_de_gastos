@@ -19,22 +19,26 @@ class _BottomNavBarState extends State<BottomNavBar> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Crud Ejemplo"),
+        backgroundColor: Color(0xFF13B218),
+        elevation: 0,
+        title: const Text(
+          "Gestor de Gastos",
+          style: TextStyle(color: Colors.white),
+        ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.access_alarm),
-            onPressed: () {
-              // closeSesion(context);
-            },
+            icon: const Icon(Icons.access_alarm, color: Colors.white),
+            onPressed: () {},
           ),
         ],
       ),
 
-      backgroundColor: Colors.white,
+      backgroundColor: Color(0xFFE6F7E7),
+
       body: Screens[_selectedIndex],
       bottomNavigationBar: CurvedNavigationBar(
         backgroundColor: Colors.transparent,
-        color: const Color.fromARGB(225, 36, 247, 99),
+        color: const Color(0xFF13B218),
         animationDuration: const Duration(milliseconds: 300),
         index: _selectedIndex,
         onTap: (index) {
@@ -42,14 +46,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
             _selectedIndex = index;
           });
         },
-        items: const [
-          Icon(Icons.home, size: 30, color: Colors.white),
-          Icon(Icons.person, size: 30, color: Colors.white),
-          Icon(Icons.add, size: 30, color: Colors.white),
-          Icon(Icons.graphic_eq, size: 30, color: Colors.white),
-          Icon(Icons.graphic_eq, size: 30, color: Colors.white),
-          Icon(Icons.graphic_eq, size: 30, color: Colors.white),
-        ],
+        items: const [Icon(Icons.home, size: 30, color: Colors.white)],
       ),
     );
   }

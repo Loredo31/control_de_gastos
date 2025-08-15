@@ -4,6 +4,7 @@ import 'package:control_gastos/model/chartDataColumnTwo_model.dart';
 import 'package:control_gastos/services/apiRecords.dart';
 import 'package:control_gastos/widgets/barMonth.dart';
 import 'package:control_gastos/widgets/graphics_widget.dart';
+import 'package:control_gastos/widgets/money_card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -51,20 +52,38 @@ class _PrincipalscreenState extends State<Principalscreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        BarMonth(
-          onChanged: (month, year) {
-            chanceDate(month, year);
-          },
+    return Scaffold(
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            BarMonth(
+              onChanged: (month, year) {
+                chanceDate(month, year);
+              },
+            ),
+            const SizedBox(height: 20),
+            GraphicsLine(
+              data: chartData,
+              typeColumn: ["Salidas", "Entradas"],
+              labelX: "Fecha",
+              labelY: "Monto",
+            ),
+            const SizedBox(height: 20),
+            ...processedData.map((registro) {
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: MoneyCard(
+                  title: registro["concept"],
+                  amount: double.parse(registro["amount"]),
+                  isEntry: registro["isentry"], 
+                ),
+              );
+            })
+          ],
         ),
-        GraphicsLine(
-          data: chartData,
-          typeColumn: ["Salidas", "Entradas"],
-          labelX: "Fecha",
-          labelY: "Monto",
-        ),
-      ],
+      ),
     );
   }
 }
