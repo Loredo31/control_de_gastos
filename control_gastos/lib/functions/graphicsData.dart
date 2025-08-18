@@ -4,7 +4,6 @@ List<ChartDataLine> generateChartDataForDate(List<Map<String, dynamic>> data) {
   final Map<String, List<double>> grouped = {};
   for (var item in data) {
     String key = item['date'];
-    print(key);
     grouped[key] ??= [0.0, 0.0];
 
     if (!item['isentry']) {
