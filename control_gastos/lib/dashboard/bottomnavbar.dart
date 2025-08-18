@@ -1,5 +1,6 @@
 import 'package:control_gastos/dashboard/screens/CRUDRecordScreen.dart';
 import 'package:control_gastos/dashboard/screens/principalScreen.dart';
+import 'package:control_gastos/dashboard/screens/typeRecurrence.dart';
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
@@ -16,6 +17,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
   final List<Widget> Screens = [
     Principalscreen(),
     CRUDRecordScreen(),
+    RecurrenceTypeScreen(),
     ];
 
   @override
