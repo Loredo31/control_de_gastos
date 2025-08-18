@@ -46,7 +46,7 @@ class _BarMonthState extends State<BarMonth> {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         IconButton(
           onPressed: () => changeMonth(false),

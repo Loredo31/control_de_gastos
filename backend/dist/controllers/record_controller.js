@@ -193,7 +193,7 @@ Ruta: http://localhost:3000/api/records*/
                  LEFT JOIN recurrence_record rr ON rr.idrecordes = res.id
                  WHERE EXTRACT(MONTH FROM res.date) = $1
                  AND EXTRACT(YEAR FROM res.date) = $2
-                 ORDER BY res.date ASC`, [monthNum, yearNum]);
+                 ORDER BY res.date DESC`, [monthNum, yearNum]);
                 if (record.rows.length === 0) {
                     return res.status(404).json({
                         status: false,
