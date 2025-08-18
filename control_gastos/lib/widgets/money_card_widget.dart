@@ -14,10 +14,9 @@ class MoneyCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Color según isEntry
     final Color bgColor = isEntry ? Color(0xFFA2DFA3) : Color.fromARGB(255, 196, 43, 29);
 
-    // Tamaño fijo para todos
+
     final double height = 60;
     final double fontSizeTitle = 18;
     final double fontSizeAmount = 20;
@@ -32,7 +31,6 @@ class MoneyCard extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            // Título a la izquierda
             Text(
               title,
               style: TextStyle(
@@ -41,7 +39,6 @@ class MoneyCard extends StatelessWidget {
                 color: Colors.white,
               ),
             ),
-            // Monto a la derecha
             Text(
               "\$${amount.toStringAsFixed(2)}",
               style: TextStyle(

@@ -93,6 +93,7 @@ class _PrincipalscreenState extends State<Principalscreen> {
     final groupedLimitedData = groupByDate(limitedData);
 
     return Scaffold(
+      backgroundColor: Color(0xFFE6F7E7),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -152,6 +153,16 @@ class _PrincipalscreenState extends State<Principalscreen> {
                 },
                 child: Text(showAll ? "Ver menos" : "Ver más"),
               ),
+            ...processedData.map((registro) {
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: MoneyCard(
+                  title: registro["concept"],
+                  amount: double.parse(registro["amount"]),
+                  isEntry: registro["isentry"],
+                ),
+              );
+            }),
           ],
         ),
       ),
