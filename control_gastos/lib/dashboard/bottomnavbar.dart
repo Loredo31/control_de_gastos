@@ -13,7 +13,8 @@ class BottomNavBar extends StatefulWidget {
 class _BottomNavBarState extends State<BottomNavBar> {
   int _selectedIndex = 0;
 
-  final List<Widget> Screens = [Principalscreen(), RecurrenceTypeScreen()];
+
+  final List<Widget> screens = [Principalscreen(), RecurrenceTypeScreen()];
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +36,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
       backgroundColor: Color(0xFFE6F7E7),
 
-      body: Screens[_selectedIndex],
+      body: screens[_selectedIndex],
       bottomNavigationBar: CurvedNavigationBar(
         backgroundColor: Colors.transparent,
         color: const Color(0xFF13B218),

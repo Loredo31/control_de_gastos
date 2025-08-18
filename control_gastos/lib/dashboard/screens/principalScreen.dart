@@ -53,6 +53,7 @@ class _PrincipalscreenState extends State<Principalscreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFFE6F7E7),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -77,10 +78,10 @@ class _PrincipalscreenState extends State<Principalscreen> {
                 child: MoneyCard(
                   title: registro["concept"],
                   amount: double.parse(registro["amount"]),
-                  isEntry: registro["isentry"], 
+                  isEntry: registro["isentry"],
                 ),
               );
-            })
+            }),
           ],
         ),
       ),
