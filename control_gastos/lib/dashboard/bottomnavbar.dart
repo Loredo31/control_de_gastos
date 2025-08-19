@@ -38,7 +38,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
       backgroundColor: Color(0xFFE6F7E7),
 
-      body: Screens[_selectedIndex],
+      body: screens[_selectedIndex],
       bottomNavigationBar: CurvedNavigationBar(
         backgroundColor: Colors.transparent,
         color: const Color(0xFF13B218),
