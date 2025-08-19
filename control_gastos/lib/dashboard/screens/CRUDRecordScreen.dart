@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:control_gastos/model/recurrenceType_model.dart';
 import 'package:control_gastos/services/recurrenceType.dart';
-import 'package:intl/intl.dart';
 
 class CRUDRecordScreen extends StatefulWidget {
   @override
@@ -160,7 +159,7 @@ class _CRUDRecordScreenState extends State<CRUDRecordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("CRUD Record")),
+      backgroundColor: Color(0xFFE6F7E7),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(

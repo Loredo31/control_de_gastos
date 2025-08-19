@@ -215,7 +215,7 @@ Ruta: http://localhost:3000/api/records*/
                  LEFT JOIN recurrence_record rr ON rr.idrecordes = res.id
                  WHERE EXTRACT(MONTH FROM res.date) = $1
                  AND EXTRACT(YEAR FROM res.date) = $2
-                 ORDER BY res.date ASC`,
+                 ORDER BY res.date DESC`,
                 [monthNum, yearNum]
             );
 
