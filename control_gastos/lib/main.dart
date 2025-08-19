@@ -1,7 +1,10 @@
 import 'package:control_gastos/dashboard/bottomnavbar.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await initializeDateFormatting('es', null);
   runApp(const MyApp());
 }
 
@@ -26,8 +29,6 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: BottomNavBar(),
-    );
+    return Scaffold(body: BottomNavBar());
   }
 }

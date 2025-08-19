@@ -82,9 +82,6 @@
     @override
     Widget build(BuildContext context) {
 
-      final groupedData = groupByDate(processedData);
-
-
       final limitedData = showAll
           ? processedData
           : (processedData.length > 5 ? processedData.sublist(0, 5) : processedData);
@@ -143,8 +140,6 @@
               }).toList(),
 
               const SizedBox(height: 10),
-
-              if (processedData.length > 5)
                 TextButton(
                   onPressed: () {
                     setState(() {

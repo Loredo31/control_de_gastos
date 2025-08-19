@@ -1,6 +1,5 @@
 import 'package:control_gastos/dashboard/screens/CRUDRecordScreen.dart';
 import 'package:control_gastos/dashboard/screens/principalScreen.dart';
-import 'package:control_gastos/dashboard/screens/typeRecurrence.dart';
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
@@ -14,11 +13,10 @@ class BottomNavBar extends StatefulWidget {
 class _BottomNavBarState extends State<BottomNavBar> {
   int _selectedIndex = 0;
 
-  final List<Widget> Screens = [
+  final List<Widget> screens = [
     Principalscreen(),
     CRUDRecordScreen(),
-    RecurrenceTypeScreen(),
-    ];
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -30,12 +28,12 @@ class _BottomNavBarState extends State<BottomNavBar> {
           "Gestor de Gastos",
           style: TextStyle(color: Colors.white),
         ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.access_alarm, color: Colors.white),
-            onPressed: () {},
-          ),
-        ],
+        // actions: [
+        //   // IconButton(
+        //   //   icon: const Icon(Icons.access_alarm, color: Colors.white),
+        //   //   onPressed: () {},
+        //   // ),
+        // ],
       ),
 
       backgroundColor: Color(0xFFE6F7E7),
@@ -51,7 +49,10 @@ class _BottomNavBarState extends State<BottomNavBar> {
             _selectedIndex = index;
           });
         },
-        items: const [Icon(Icons.home, size: 30, color: Colors.white)],
+        items: const [
+          Icon(Icons.home, size: 30, color: Colors.white),
+          Icon(Icons.add, size: 30, color: Colors.white),
+        ],
       ),
     );
   }
