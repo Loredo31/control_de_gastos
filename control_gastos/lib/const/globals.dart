@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 
 String? ipMac = '127.0.0.1';
-String baseUrl = "http://192.168.0.109:3000/api";
+String baseUrl = "http://192.168.0.124:3000/api";
 
 Future<bool> obtenerSistema() async {
   if (kIsWeb) {

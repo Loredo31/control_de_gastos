@@ -51,7 +51,11 @@ class _BottomNavBarState extends State<BottomNavBar> {
             _selectedIndex = index;
           });
         },
-        items: const [Icon(Icons.home, size: 30, color: Colors.white)],
+        items: const [
+          Icon(Icons.home, size: 30, color: Colors.white),
+          Icon(Icons.add, size: 30, color: Colors.white),
+          Icon(Icons.add, size: 30, color: Colors.white)
+        ],
       ),
     );
   }
