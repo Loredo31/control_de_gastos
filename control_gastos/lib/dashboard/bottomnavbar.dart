@@ -1,3 +1,4 @@
+import 'package:control_gastos/dashboard/screens/CRUDRecordScreen.dart';
 import 'package:control_gastos/dashboard/screens/principalScreen.dart';
 import 'package:control_gastos/dashboard/screens/typeRecurrence.dart';
 import 'package:flutter/material.dart';
@@ -13,8 +14,11 @@ class BottomNavBar extends StatefulWidget {
 class _BottomNavBarState extends State<BottomNavBar> {
   int _selectedIndex = 0;
 
-
-  final List<Widget> screens = [Principalscreen(), RecurrenceTypeScreen()];
+  final List<Widget> Screens = [
+    Principalscreen(),
+    CRUDRecordScreen(),
+    RecurrenceTypeScreen(),
+    ];
 
   @override
   Widget build(BuildContext context) {
