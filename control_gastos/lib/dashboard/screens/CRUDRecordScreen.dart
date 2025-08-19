@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:control_gastos/model/recurrenceType_model.dart';
 import 'package:control_gastos/services/recurrenceType.dart';
-import 'package:intl/intl.dart';
 
 class CRUDRecordScreen extends StatefulWidget {
   @override

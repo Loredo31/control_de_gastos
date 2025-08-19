@@ -51,7 +51,9 @@ class _PrincipalscreenState extends State<Principalscreen> {
     getDataRecords(finalDate);
   }
 
-  Map<String, List<Map<String, dynamic>>> groupByDate(List<Map<String, dynamic>> data) {
+  Map<String, List<Map<String, dynamic>>> groupByDate(
+    List<Map<String, dynamic>> data,
+  ) {
     Map<String, List<Map<String, dynamic>>> grouped = {};
     final now = DateTime.now();
 
@@ -81,14 +83,11 @@ class _PrincipalscreenState extends State<Principalscreen> {
 
   @override
   Widget build(BuildContext context) {
-
-    final groupedData = groupByDate(processedData);
-
-
     final limitedData = showAll
         ? processedData
-        : (processedData.length > 5 ? processedData.sublist(0, 5) : processedData);
-
+        : (processedData.length > 5
+              ? processedData.sublist(0, 5)
+              : processedData);
 
     final groupedLimitedData = groupByDate(limitedData);
 
@@ -144,25 +143,14 @@ class _PrincipalscreenState extends State<Principalscreen> {
 
             const SizedBox(height: 10),
 
-            if (processedData.length > 5)
-              TextButton(
-                onPressed: () {
-                  setState(() {
-                    showAll = !showAll;
-                  });
-                },
-                child: Text(showAll ? "Ver menos" : "Ver más"),
-              ),
-            ...processedData.map((registro) {
-              return Padding(
-                padding: const EdgeInsets.only(bottom: 10),
-                child: MoneyCard(
-                  title: registro["concept"],
-                  amount: double.parse(registro["amount"]),
-                  isEntry: registro["isentry"],
-                ),
-              );
-            }),
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  showAll = !showAll;
+                });
+              },
+              child: Text(showAll ? "Ver menos" : "Ver más"),
+            ),
           ],
         ),
       ),
