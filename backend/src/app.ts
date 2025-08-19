@@ -4,6 +4,7 @@ import cors from 'cors';
 import indexRoutes from './routes/indexRoutes';
 import recordRoutes from './routes/record_routes';
 import recurrencetypeRoutes  from './routes/recurrencetypeRoutes';
+import  categoryRoutes  from './routes/categoryRoutes';
 
 
 class Server {
@@ -27,6 +28,7 @@ class Server {
           this.app.use('/', indexRoutes); 
           this.app.use('/api/records', recordRoutes); 
           this.app.use('/api/type', recurrencetypeRoutes)
+          this.app.use('/api/catego', categoryRoutes)
     }
 
     start(): void {
