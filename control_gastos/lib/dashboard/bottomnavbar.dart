@@ -28,12 +28,12 @@ class _BottomNavBarState extends State<BottomNavBar> {
           "Gestor de Gastos",
           style: TextStyle(color: Colors.white),
         ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.access_alarm, color: Colors.white),
-            onPressed: () {},
-          ),
-        ],
+        // actions: [
+        //   // IconButton(
+        //   //   icon: const Icon(Icons.access_alarm, color: Colors.white),
+        //   //   onPressed: () {},
+        //   // ),
+        // ],
       ),
 
       backgroundColor: Color(0xFFE6F7E7),
@@ -51,7 +51,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
         },
         items: const [
           Icon(Icons.home, size: 30, color: Colors.white),
-          Icon(Icons.home, size: 30, color: Colors.white),
+          Icon(Icons.add, size: 30, color: Colors.white),
         ],
       ),
     );
