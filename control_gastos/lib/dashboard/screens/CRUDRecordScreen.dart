@@ -3,8 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:control_gastos/model/recurrenceType_model.dart';
 import 'package:control_gastos/services/recurrenceType.dart';
+import 'package:control_gastos/services/categoryService.dart';
 
 class CRUDRecordScreen extends StatefulWidget {
+  final Map<String, dynamic>? record;
+  CRUDRecordScreen({this.record});
+
   @override
   _CRUDRecordScreenState createState() => _CRUDRecordScreenState();
 }
@@ -25,11 +29,19 @@ class _CRUDRecordScreenState extends State<CRUDRecordScreen> {
   bool workingDays = false;
 
   final RecurrenceTypeService recurrenceService = RecurrenceTypeService();
+  List<Map<String, dynamic>> categories = [];
+
+  bool get isEditMode => widget.record != null;
 
   @override
   void initState() {
     super.initState();
     _loadRecurrenceTypes();
+    _loadCategories();
+
+    if (isEditMode) {
+      _loadRecordData();
+    }
   }
 
   Future<void> _loadRecurrenceTypes() async {
@@ -40,6 +52,44 @@ class _CRUDRecordScreenState extends State<CRUDRecordScreen> {
       });
     } catch (e) {
       debugPrint('Error cargando tipos de recurrencia: $e');
+    }
+  }
+
+  Future<void> _loadCategories() async {
+    try {
+      final data = await CategoryService.getAllCategories();
+      setState(() {
+        categories = data;
+      });
+    } catch (e) {
+      debugPrint('Error cargando categorías: $e');
+    }
+  }
+
+  void _loadRecordData() {
+    final record = widget.record!;
+    amountController.text = record["amount"].toString();
+    conceptController.text = record["concept"] ?? "";
+    isEntry = record["isentry"] ?? true;
+    categoryId = record["category_id"];
+    isRecurrent = record["is_concurrent"] ?? false;
+    recurrenceActive = record["active"] ?? true;
+    dayOfMonth = record["days_month"];
+    workingDays = record["working_days"] ?? false;
+
+    if (record["days_week"] != null) {
+      selectedDaysOfWeek = List<int>.from(
+        record["days_week"].map((d) => d as int),
+      );
+    }
+
+    if (record["id_type"] != null) {
+      selectedRecurrenceType = recurrenceTypes.firstWhere(
+        (t) => t.id == record["id_type"],
+        orElse: () => recurrenceTypes.isNotEmpty
+            ? recurrenceTypes.first
+            : RecurrenceType(id: 0, type: "Desconocido"),
+      );
     }
   }
 
@@ -137,13 +187,37 @@ class _CRUDRecordScreenState extends State<CRUDRecordScreen> {
     };
 
     try {
-      final response = await Recordservice.createRecord(recordData);
+      var response;
+      if (isEditMode) {
+        recordData["id"] = widget.record!["id"];
+        response = await Recordservice.updateRecord(recordData);
+      } else {
+        response = await Recordservice.createRecord(recordData);
+      }
 
       if (response != null) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text("Registro guardado con éxito")));
-        Navigator.pop(context);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              isEditMode
+                  ? "Registro actualizado con éxito"
+                  : "Registro creado con éxito",
+            ),
+          ),
+        );
+        setState(() {
+          if (isEditMode) {
+            _loadRecordData();
+          } else {
+            amountController.clear();
+            conceptController.clear();
+            categoryId = null;
+            isEntry = true;
+            isRecurrent = false;
+            recurrenceActive = true;
+            _resetRecurrenceFields();
+          }
+        });
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("No se pudo guardar el registro")),
@@ -160,6 +234,9 @@ class _CRUDRecordScreenState extends State<CRUDRecordScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFE6F7E7),
+      appBar: AppBar(
+        title: Text(isEditMode ? "Editar Registro" : "Nuevo Registro"),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -197,7 +274,12 @@ class _CRUDRecordScreenState extends State<CRUDRecordScreen> {
               DropdownButtonFormField<int>(
                 value: categoryId,
                 decoration: InputDecoration(labelText: "Categoría"),
-                items: [],
+                items: categories.map((cat) {
+                  return DropdownMenuItem<int>(
+                    value: cat["id"],
+                    child: Text(cat["name"] ?? "Sin nombre"),
+                  );
+                }).toList(),
                 onChanged: (val) => setState(() => categoryId = val),
                 validator: (val) =>
                     val == null ? "Selecciona una categoría" : null,
@@ -301,7 +383,10 @@ class _CRUDRecordScreenState extends State<CRUDRecordScreen> {
               ],
 
               SizedBox(height: 20),
-              ElevatedButton(onPressed: _submitForm, child: Text("Agregar")),
+              ElevatedButton(
+                onPressed: _submitForm,
+                child: Text(isEditMode ? "Actualizar" : "Agregar"),
+              ),
             ],
           ),
         ),
